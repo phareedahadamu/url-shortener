@@ -1,0 +1,37 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id    String     @id @default(uuid()) @db.Uuid
+  email String  @unique
+  username  String
+  links Link[]  
+}
+
+model Link {
+  id String @id @default(uuid()) @db.Uuid
+  shortUrl String @unique
+  longUrl String
+  userId    String  @db.Uuid
+  user      User    @relation(fields: [userId], references: [id])
+  clicks Click[]
+  clickCount Int     @default(0)
+}
+
+model Click{
+  id String @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  linkId String @db.Uuid
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  ip        String?
+  userAgent String?
+  referer   String?
+  country   String?
+}
