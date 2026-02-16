@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Shortly---smart URL Shortener
 
-## Getting Started
+A full-stack URL shortening platform with click analytics and AI-powered insights.
 
-First, run the development server:
+This app allows users to:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Create short URLs
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Track click analytics (IP, user agent, timestamps, etc.)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+View performance metrics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generate natural language summaries of analytics using a lightweight LLM integration
 
-## Learn More
+🚀 Features
+Core Features
 
-To learn more about Next.js, take a look at the following resources:
+🔐 Authentication (Credentials-based)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🔗 Short URL generation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📈 Click tracking
 
-## Deploy on Vercel
+📊 Analytics dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🔄 Automatic click count increment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🗃 Click logging (IP + User Agent)
+
+Analytics
+
+Total clicks per link
+
+Click history
+
+Basic traffic insights
+
+Per-link performance breakdown
+
+🧠 AI Analytics Summary (Planned / In Progress)
+
+A lightweight LLM integration that:
+
+Summarizes link performance
+
+Explains traffic patterns
+
+Highlights unusual spikes
+
+Generates plain-English analytics reports
+
+Example output:
+
+“This link received most of its traffic between 8PM–11PM and appears to have primarily desktop users. Traffic increased significantly compared to the previous period.”
+
+🛠 Tech Stack
+Frontend
+
+Next.js (App Router)
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+Backend
+
+Next.js Server Actions / API Routes
+
+Prisma ORM
+
+PostgreSQL (Neon)
+
+Authentication
+
+NextAuth (JWT strategy)
+
+Credentials provider
+
+Argon2 password hashing
+
+Deployment
+
+Netlify
+
+
+🧩 Database Schema (Simplified)
+User
+
+--id
+
+--email
+
+--username
+
+--password
+
+Link
+
+--id
+
+--shortUrl
+
+--longUrl
+
+--clickCount
+
+--createdAt
+
+--userId
+
+Click
+
+--id
+
+--linkId
+
+--ip
+
+--userAgent
+
+--referer (optional)
+
+--country (optional)
+
+--createdAt
+
+🔄 How Redirects Work
+
+User visits /abc123
+
+Server:
+
+Increments clickCount
+
+Logs a Click record
+
+User is redirected to the longUrl
+
+All click updates and logging occur inside a Prisma transaction to ensure data consistency.
+
+📊 Analytics System
+
+Click data collected:
+
+IP address
+
+User Agent
+
+Timestamp
+
+(Optional) Referer
+
+(Optional) Country
+
+Analytics calculations:
+
+Total clicks
+
+Clicks per day
+
+User agent breakdown
+
+Traffic trends
