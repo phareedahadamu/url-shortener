@@ -11,11 +11,18 @@ export async function login(
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   try {
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email: email,
       password: password,
       redirect: false,
     });
+    console.log(result);
+    if (!result) {
+      throw new Error("Couldn't log in");
+    }
+    if (result?.error) {
+      throw new Error(result.error);
+    }
     return { success: true, message: "Login successful!" };
   } catch (error) {
     const message =
@@ -24,7 +31,7 @@ export async function login(
         : error instanceof Error
           ? error.message
           : "Sign in Error";
-    console.error("Error", message);
+    console.log("Error", message);
     return { success: false, message: message };
   }
 }
@@ -43,11 +50,17 @@ export async function signUp(
     if (!user.success) {
       throw new Error(user.message);
     }
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email: email,
       password: password,
       redirect: false,
     });
+    if (!result) {
+      throw new Error("Couldn't log in");
+    }
+    if (result?.error) {
+      throw new Error(result.error);
+    }
     return { success: true, message: "SignUp successful!" };
   } catch (error) {
     const message =
@@ -56,7 +69,7 @@ export async function signUp(
         : error instanceof Error
           ? error.message
           : "Sign in Error";
-    console.error("Error", message);
+    console.log("Error", message);
     return { success: false, message: message };
   }
 }

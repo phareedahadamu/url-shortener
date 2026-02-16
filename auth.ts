@@ -18,9 +18,9 @@ export const configOptions = {
         const response = await findUser(email);
         const user = response.user;
 
-        if (!user) return null;
+        if (!user) throw new Error("User not found");
         const isValid = await verifyPassword(password, user.password);
-        if (!isValid) return null;
+        if (!isValid) throw new Error("Invalid email or password");
         return {
           id: user.id,
           email: user.email,
