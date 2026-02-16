@@ -21,7 +21,7 @@ model Link {
   shortUrl String @unique
   longUrl String 
   userId    String  @db.Uuid
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   clicks Click[]
   clickCount Int     @default(0)
 }

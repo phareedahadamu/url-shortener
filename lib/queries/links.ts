@@ -85,12 +85,33 @@ export async function getLinks(userId: string) {
     return { success: false, links: null, message: message };
   }
 }
-export async function getSingleLink(shortUrl: string) {
+export async function getSingleLink(
+  shortUrl: string,
+  clickData: {
+    ip?: string;
+    userAgent?: string;
+    referer?: string;
+    country?: string;
+  },
+) {
   try {
-    const link = await prisma.link.update({
-      where: { shortUrl },
-      data: { clickCount: { increment: 1 } },
-      select: { longUrl: true },
+    const link = await prisma.$transaction(async (prisma) => {
+      const l = await prisma.link.update({
+        where: { shortUrl },
+        data: { clickCount: { increment: 1 } },
+        select: { longUrl: true, id: true },
+      });
+
+      await prisma.click.create({
+        data: {
+          linkId: l.id,
+          ip: clickData?.ip,
+          userAgent: clickData?.userAgent,
+          referer: clickData?.referer,
+          country: clickData?.country,
+        },
+      });
+      return l;
     });
     return { success: true, longUrl: link.longUrl, message: "Successful" };
   } catch (error) {
