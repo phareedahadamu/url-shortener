@@ -6,7 +6,9 @@ import {
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
 } from "@/generated/prisma/internal/prismaNamespace";
-import { auth } from "@/auth";
+import { configOptions } from "@/auth";
+import { getServerSession } from "next-auth";
+import { User } from "@/generated/prisma/client";
 
 export async function createShortUrl(
   _prevState: {
@@ -16,11 +18,13 @@ export async function createShortUrl(
   } | null,
   formData: FormData,
 ) {
-  const session = await auth();
+  const session = await getServerSession(configOptions);
+
   if (!session || !session.user) {
     return { success: false, urlData: null, message: "User not authenticated" };
   }
-  const userId = session.user.id as string;
+  const user = session.user as User;
+  const userId = user.id as string;
   const longUrl = formData.get("url") as string;
   const existingUrlData = await prisma.link.findFirst({
     where: { longUrl, userId },

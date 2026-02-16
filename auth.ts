@@ -2,9 +2,10 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "@/generated/prisma/client";
 import { findUser } from "@/lib/queries/user";
-import { verifyPassword } from "@/app/actions/userAuth";
+import { verifyPassword } from "@/app/actions/password-encrypt";
+import type { NextAuthOptions } from "next-auth";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const configOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -34,11 +35,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     updateAge: Infinity,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
+      console.log("JWT callback:", token);
       return token;
     },
     async session({ session, token }) {
@@ -47,10 +50,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           emailVerified: null;
         };
       }
+      console.log("Session callback:", session);
       return session;
     },
   },
   pages: {
     signIn: "/login",
   },
-});
+} satisfies NextAuthOptions;
+
+export const handler = NextAuth(configOptions);

@@ -1,16 +1,8 @@
-"use server";
-import { signIn } from "@/auth";
-import argon2 from "argon2";
+"use client";
+import { signIn } from "next-auth/react";
 import { createNewUser } from "@/lib/queries/user";
-import { AuthError } from "next-auth";
-
-export async function hashPassword(password: string) {
-  return await argon2.hash(password);
-}
-
-export async function verifyPassword(password: string, hashedPassword: string) {
-  return await argon2.verify(hashedPassword, password);
-}
+import AuthError from "next-auth";
+import { hashPassword } from "./password-encrypt";
 
 export async function login(
   _prevState: { success: boolean; message: string } | null,

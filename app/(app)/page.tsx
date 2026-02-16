@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { getServerSession } from "next-auth/next";
+import { configOptions } from "@/auth";
 import { User } from "@/generated/prisma/client";
 import { Suspense } from "react";
 import PageContent from "./content";
@@ -6,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const session = await auth();
+  const session = await getServerSession(configOptions);
   if (!session || !session.user) redirect("/login");
 
   const user = session.user as User;
