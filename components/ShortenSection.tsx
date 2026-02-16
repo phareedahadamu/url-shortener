@@ -105,7 +105,7 @@ export default function ShortenSection({
           <p className="text-[14px] text-neutral-600">
             {message.urlData?.longUrl}
           </p>
-          <div className="flex gap-3 ">
+          <div className="flex lg:gap-3 lg:flex-row flex-col gap-0  items-center text-center">
             <span>Shortened Url</span>
             <p className="font-medium">{appUrl + message.urlData?.shortUrl}</p>
             <CopyButton text={appUrl + message.urlData?.shortUrl} />

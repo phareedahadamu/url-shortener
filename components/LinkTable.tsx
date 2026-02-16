@@ -124,22 +124,24 @@ export default function LinkTable({
               </p>
             </div>
           </div>
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="bg-neutral-100 text-center rounded-tl-md py-4 text-neutral-500">
-                  Url
-                </th>
-                <th className="bg-neutral-100 text-center rounded-tr-md  py-4 text-neutral-500">
-                  Short Url
-                </th>
-                <th className="bg-neutral-100 text-center  py-4 text-neutral-500">
-                  Click count
-                </th>
-              </tr>
-            </thead>
-            <tbody>{tableRows}</tbody>
-          </table>
+          <div className="w-full overflow-x-auto ">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="bg-neutral-100 text-center rounded-tl-md py-4 text-neutral-500">
+                    Url
+                  </th>
+                  <th className="bg-neutral-100 text-center rounded-tr-md  py-4 text-neutral-500">
+                    Short Url
+                  </th>
+                  <th className="bg-neutral-100 text-center  py-4 text-neutral-500">
+                    Click count
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{tableRows}</tbody>
+            </table>
+          </div>
         </section>
       )}
     </>

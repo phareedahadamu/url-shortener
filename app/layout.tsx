@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins, Rammetto_One } from "next/font/google";
 import "./globals.css";
 
-
 const poppins = Poppins({
   variable: "--font-poppins-sans",
   subsets: ["latin"],
@@ -16,7 +15,8 @@ const ram = Rammetto_One({
 
 export const metadata: Metadata = {
   title: "Shortly",
-  description: "Start shortening your links and collect data seamlessly. Create a new link now to simplify sharing and gain valueable insights.",
+  description:
+    "Start shortening your links and collect data seamlessly. Create a new link now to simplify sharing and gain valueable insights.",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${ram.variable} antialiased flex w-full justify-center font-sans`}
+        className={`${poppins.variable} ${ram.variable} antialiased flex justify-center font- w-screen`}
       >
         {children}
       </body>
