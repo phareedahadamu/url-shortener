@@ -108,7 +108,10 @@ export default function LinkDetails({
                   <Lnk size="14" className="text-inherit" /> Short url
                 </p>
                 <p className="font-medium text-neutral-700 flex gap-1 items-center">
-                  {link.shortUrl} <CopyButton text={link.shortUrl} />
+                  {link.shortUrl}{" "}
+                  <CopyButton
+                    text={process.env.NEXT_PUBLIC_APP_URL + link.shortUrl}
+                  />
                 </p>
               </div>
               <div className="flex flex-col gap-1.5 w-full">
