@@ -74,28 +74,30 @@ export default function LinkTable({
             {link.clickCount}
           </td>
           <td className="py-4 border border-neutral-100 border-l-transparent text-end pr-4 ">
-            <button
-              role="menu"
-              className={`p-2 rounded-sm hover:bg-neutral-100 relative cursor-pointer ${visibleExpandMenu === index ? "border border-neutral-600" : "border-none"} has-hover:bg-white mx-auto `}
-              onClick={() => {
-                if (visibleExpandMenu == index) {
+            <div className="relative  mx-auto ">
+              <button
+                role="button"
+                className={`p-2 rounded-sm hover:bg-neutral-100 cursor-pointer ${visibleExpandMenu === index ? "border border-neutral-600" : "border-none"} `}
+                onClick={() => {
+                  if (visibleExpandMenu == index) {
+                    setVisibleExpandMenu(-1);
+                  } else setVisibleExpandMenu(index);
+                }}
+                onBlur={() => {
                   setVisibleExpandMenu(-1);
-                } else setVisibleExpandMenu(index);
-              }}
-              onBlur={() => {
-                setVisibleExpandMenu(-1);
-              }}
-            >
-              <EllipsisVertical size={18} className="text-neutral-500" />
+                }}
+              >
+                <EllipsisVertical size={18} className="text-neutral-500" />
+              </button>
               {visibleExpandMenu === index && (
-                <div
-                  role="menubar"
-                  className="absolute -bottom-1 bg-white translate-y-full right-0 w-fit border border-neutral-200 rounded-md p-1.5 z-100"
+                <ul
+                  role="menu"
+                  className="list-none absolute -bottom-1 bg-white translate-y-full right-0 w-fit border border-neutral-200 rounded-md p-1.5 z-100"
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                 >
-                  <div
+                  <li
                     role="menuitem"
                     className="text-neutral-500 text-[14px] cursor-pointer py-2 px-3 rounded-sm hover:bg-neutral-100 w-full max-w-50 text-nowrap flex items-center gap-2"
                     onMouseDown={(e) => e.preventDefault()}
@@ -106,10 +108,10 @@ export default function LinkTable({
                     }}
                   >
                     <Eye size="14" className="text-inherit" /> View Details
-                  </div>
-                </div>
+                  </li>
+                </ul>
               )}
-            </button>
+            </div>
           </td>
         </tr>
       ))
@@ -231,7 +233,7 @@ export default function LinkTable({
                   href={`/?page=${page - 1}`}
                   className={`${paginationInfo && paginationInfo.hasPrevPage ? "pointer-events-auto text-neutral-600 border-neutral-600" : "pointer-events-none border-neutral-400 text-neutral-400"} rounded-md p-1.5 border-[0.89px] `}
                 >
-                  <ChevronLeft size="18" className="text-inherit" />
+                  <ChevronLeft size="20" className="text-inherit" />
                 </Link>{" "}
                 <Link
                   href={`/?page=${page + 1}`}
