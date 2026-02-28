@@ -68,10 +68,40 @@ export async function createShortUrl(
   }
 }
 
-export async function getLinks(userId: string) {
+export async function getLinks(
+  userId: string,
+  page: number = 1,
+  limit: number = 10,
+) {
   try {
-    const links = await prisma.link.findMany({ where: { userId } });
-    return { success: true, links: links, message: "Successful" };
+    const skip = (page - 1) * limit;
+
+    const links = await prisma.link.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    });
+
+    const total = await prisma.link.count({
+      where: { userId },
+    });
+
+    return {
+      success: true,
+      data: {
+        links,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+          hasNextPage: page < Math.ceil(total / limit),
+          hasPrevPage: page > 1,
+        },
+        message: "Successful",
+      },
+    };
   } catch (error) {
     const message =
       error instanceof PrismaClientKnownRequestError ||
@@ -82,7 +112,7 @@ export async function getLinks(userId: string) {
           ? error.message
           : "Couldnt fetch links";
     console.error(message);
-    return { success: false, links: null, message: message };
+    return { success: false, data: null, message: message };
   }
 }
 export async function getSingleLink(
@@ -154,5 +184,49 @@ export async function getMetrics(userId: string) {
   } catch (error) {
     console.log(error);
     return null;
+  }
+}
+
+export async function getLinkDetails(linkId: string) {
+  try {
+    const link = await prisma.link.findUnique({
+      where: { id: linkId },
+      include: {
+        clicks: {
+          orderBy: { createdAt: "desc" },
+        },
+      },
+    });
+
+    if (!link) {
+      return {
+        success: false,
+        link: null,
+        message: "Link not found",
+      };
+    }
+
+    return {
+      success: true,
+      link,
+      message: "Link fetched successfully",
+    };
+  } catch (error) {
+    const message =
+      error instanceof PrismaClientKnownRequestError ||
+      error instanceof PrismaClientUnknownRequestError ||
+      error instanceof PrismaClientValidationError
+        ? error.message
+        : error instanceof Error
+          ? error.message
+          : "Could not fetch link";
+
+    console.error(message);
+
+    return {
+      success: false,
+      link: null,
+      message,
+    };
   }
 }

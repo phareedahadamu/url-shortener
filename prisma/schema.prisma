@@ -13,7 +13,8 @@ model User {
   email String  @unique
   password String
   username  String
-  links Link[]  
+  links Link[] 
+  createdAt DateTime @default(now())
 }
 
 model Link {
@@ -24,6 +25,9 @@ model Link {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   clicks Click[]
   clickCount Int     @default(0)
+  createdAt DateTime @default(now())
+
+   @@index([userId])
 }
 
 model Click{
@@ -35,4 +39,6 @@ model Click{
   userAgent String?
   referer   String?
   country   String?
+
+  @@index([linkId])
 }

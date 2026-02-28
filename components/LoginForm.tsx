@@ -7,7 +7,7 @@ import { useState, useActionState, useEffectEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Toast from "@/components/Toast";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail, Lock } from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function LoginForm() {
   }, [message]);
   return (
     <div className="flex  py-6 flex-col gap-6 w-full min-h-screen items-center justify-center font-sans text-neutral-800 relative">
-      <div className=" max-w-80 w-[98%] flex flex-col items-center gap-12">
+      <div className=" max-w-90 w-[98%] flex flex-col items-center gap-12">
         <div className="flex flex-col w-full items-center">
           <p className="font-serif text-[20px]">Shortly</p>
           <div className="flex flex-col w-full items-center ">
@@ -75,14 +75,21 @@ export default function LoginForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Email
               </span>
-              <input
-                {...register("email")}
-                type="text"
-                name="email"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.email ? "border-red-500" : " border-neutral-300"
-                }`}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("email")}
+                  type="text"
+                  name="email"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.email ? "border-red-500" : " border-neutral-300"
+                  }`}
+                  disabled={isPending}
+                />
+                <Mail
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.email && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.email.message}
@@ -93,14 +100,21 @@ export default function LoginForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Password
               </span>
-              <input
-                {...register("password")}
-                type="text"
-                name="password"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.password ? "border-red-500" : " border-neutral-300"
-                }`}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("password")}
+                  type="password"
+                  name="password"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.password ? "border-red-500" : " border-neutral-300"
+                  }`}
+                  disabled={isPending}
+                />
+                <Lock
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.password && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.password.message}
@@ -113,8 +127,11 @@ export default function LoginForm() {
             className="w-full bg-neutral-800 text-white rounded-md p-3 disabled:cursor-not-allowed not-disabled:hover:bg-neutral-700 duration-200 transition-colors disabled:opacity-65 cursor-pointer flex items-center justify-center"
             disabled={isPending || !isValid}
           >
-            {isPending ?
-            <Loader2 size={18} className="animate-spin text-white" /> : "Login"}
+            {isPending ? (
+              <Loader2 size={18} className="animate-spin text-white" />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>

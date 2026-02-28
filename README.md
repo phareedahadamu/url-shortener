@@ -1,6 +1,6 @@
 Shortly---smart URL Shortener
 
-A full-stack URL shortening platform with click analytics and AI-powered insights.
+A full-stack URL shortening platform with click analytics.
 
 This app allows users to:
 
@@ -10,7 +10,6 @@ Track click analytics (IP, user agent, timestamps, etc.)
 
 View performance metrics
 
-Generate natural language summaries of analytics using a lightweight LLM integration
 
 🚀 Features
 Core Features
@@ -95,6 +94,8 @@ User
 --username
 
 --password
+
+--createdAt
 
 Link
 

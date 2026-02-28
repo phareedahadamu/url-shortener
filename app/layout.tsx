@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${ram.variable} antialiased flex justify-center font- w-screen`}
+        className={`${poppins.variable} ${ram.variable} antialiased flex justify-center font-sans`}
       >
         {children}
       </body>

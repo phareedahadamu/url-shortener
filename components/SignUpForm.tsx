@@ -2,13 +2,12 @@
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpSchema } from "@/app/schema";
-import { CircleCheck, CircleX } from "lucide-react";
 import { useState, useActionState, useEffectEvent, useEffect } from "react";
 import { signUp } from "@/app/actions/userAuth";
 import Toast from "@/components/Toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail, Lock, User, CircleCheck, CircleX } from "lucide-react";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -108,7 +107,7 @@ export default function SignUpForm() {
 
   return (
     <div className="flex  flex-col gap-6 w-full min-h-screen items-center justify-center font-sans text-neutral-800  py-6">
-      <div className=" max-w-80 w-[98%] flex flex-col items-center gap-12">
+      <div className=" max-w-90 w-[98%] flex flex-col items-center gap-12">
         <div className="flex flex-col w-full items-center">
           <p className="font-serif text-[20px]">Shortly</p>
           <div className="flex flex-col w-full items-center ">
@@ -130,14 +129,21 @@ export default function SignUpForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Username
               </span>
-              <input
-                {...register("username")}
-                name="username"
-                type="username"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.username ? "border-red-500" : " border-neutral-300"
-                }`}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("username")}
+                  disabled={isPending}
+                  name="username"
+                  type="username"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.username ? "border-red-500" : " border-neutral-300"
+                  }`}
+                />
+                <User
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.username && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.username.message}
@@ -148,14 +154,21 @@ export default function SignUpForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Email
               </span>
-              <input
-                {...register("email")}
-                name="email"
-                type="text"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.email ? "border-red-500" : " border-neutral-300"
-                }`}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("email")}
+                  disabled={isPending}
+                  name="email"
+                  type="text"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.email ? "border-red-500" : " border-neutral-300"
+                  }`}
+                />
+                <Mail
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.email && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.email.message}
@@ -166,20 +179,27 @@ export default function SignUpForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Password
               </span>
-              <input
-                {...register("password")}
-                name="password"
-                type="text"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.password ? "border-red-500" : " border-neutral-300"
-                }`}
-                onClick={() => {
-                  setShowPasswordValidation(true);
-                }}
-                onBlur={() => {
-                  setShowPasswordValidation(false);
-                }}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("password")}
+                  disabled={isPending}
+                  name="password"
+                  type="password"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.password ? "border-red-500" : " border-neutral-300"
+                  }`}
+                  onClick={() => {
+                    setShowPasswordValidation(true);
+                  }}
+                  onBlur={() => {
+                    setShowPasswordValidation(false);
+                  }}
+                />
+                <Lock
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.password && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.password.message}
@@ -195,16 +215,23 @@ export default function SignUpForm() {
               <span className="after:content-['*'] after:text-red-500 after:ml-0.5 text-neutral-500 font-medium">
                 Confirm Password
               </span>
-              <input
-                {...register("confirmPassword")}
-                name="confirmPassword"
-                type="text"
-                className={`p-3 w-full rounded-md border focus:outline-amber-200/25 ${
-                  errors.confirmPassword
-                    ? "border-red-500"
-                    : " border-neutral-300"
-                }`}
-              />
+              <div className="w-full relative">
+                <input
+                  {...register("confirmPassword")}
+                  disabled={isPending}
+                  name="confirmPassword"
+                  type="password"
+                  className={`p-3 pl-9 w-full rounded-md border focus:outline-amber-200/25 ${
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : " border-neutral-300"
+                  }`}
+                />
+                <Lock
+                  size={20}
+                  className="text-neutral-400 absolute top-[50%] left-2 -translate-y-[50%]"
+                />
+              </div>
               {errors.confirmPassword && (
                 <p className="absolute -bottom-5 text-[14px] text-red-500">
                   {errors.confirmPassword.message}
